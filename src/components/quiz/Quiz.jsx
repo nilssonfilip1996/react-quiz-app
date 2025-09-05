@@ -10,7 +10,7 @@ export default function Quiz() {
     }
 
     var currentQuestionIndex = selectedAnswers.length;
-    console.log(selectedAnswers);
+    //console.log(selectedAnswers);
     
     var isQuizActive = currentQuestionIndex < questions.length ? true : false;
     
@@ -18,7 +18,7 @@ export default function Quiz() {
     return (
         <>
             <div id="quiz">
-                {isQuizActive && <Question question={questions[currentQuestionIndex]} onAnswer={handleUserSelect} />}
+                {isQuizActive && <Question question={questions[currentQuestionIndex]} onLockInAnswer={handleUserSelect} />}
                 {!isQuizActive && "You have answered all the questions, standby for results."}
             </div>
         </>
