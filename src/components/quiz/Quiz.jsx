@@ -18,7 +18,7 @@ export default function Quiz() {
     return (
         <>
             <div id="quiz">
-                {isQuizActive && <Question question={questions[currentQuestionIndex]} onLockInAnswer={handleUserSelect} />}
+                {isQuizActive && <Question question={questions[currentQuestionIndex]} onLockInAnswer={handleUserSelect} initialTimer={3000}/>}
                 {!isQuizActive && "You have answered all the questions, standby for results."}
             </div>
         </>
