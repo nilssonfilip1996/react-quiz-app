@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Answers({answers, onAnswer, answeredCorrect}) {
+export default function Answers({answers, onAnswer, correctAnswer}) {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
 
     useEffect(() => {
@@ -8,12 +8,12 @@ export default function Answers({answers, onAnswer, answeredCorrect}) {
     }, [answers]);
 
     let correctAnswerClass;
-    if(answeredCorrect==="true"){
-        correctAnswerClass="correct";
-    } else if(answeredCorrect==="false"){
-        correctAnswerClass="wrong";
-    } else{
+    if(selectedAnswer===null){
         correctAnswerClass="";
+    } else if(selectedAnswer===correctAnswer){
+        correctAnswerClass="correct";
+    } else{
+        correctAnswerClass="wrong";
     }
 
     function handleAnswer(answer, e){
@@ -27,7 +27,7 @@ export default function Answers({answers, onAnswer, answeredCorrect}) {
             <ul id="answers">
                 {answers.map((answer, index) => (
                     <li key={index} className="answer">
-                        <button className={answer===selectedAnswer?correctAnswerClass:""} onClick={(e) => handleAnswer(answer, e)}>
+                        <button disabled={selectedAnswer?true:false} className={answer===selectedAnswer?correctAnswerClass:""} onClick={(e) => handleAnswer(answer, e)}>
                             {answer}
                         </button>
                     </li>

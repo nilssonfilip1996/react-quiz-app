@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Answers from "./Answers";
 import QuestionTimer from "./QuestionTimer";
 
@@ -18,27 +18,37 @@ export default function Question({ question, onLockInAnswer, initialTimer }) {
     console.log("State reset.");
     return initialTimer;
   });
-  const [answeredCorrect, setAnsweredCorrect] = useState(null);
-  const [scrambledAnswers, setScrambledAnswers] = useState(shuffle(question.answers))
+  //const [answeredCorrect, setAnsweredCorrect] = useState(null);
+  const [scrambledAnswers, setScrambledAnswers] = useState(shuffle(question.answers));
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const selectedAnswerRef = useRef(null);
+
+  useEffect(() => {
+    selectedAnswerRef.current = selectedAnswer; //Using a ref for the selectedAnswer in order to pull the latest value when calling onLockInAnswer.
+  }, [selectedAnswer]);
 
   useEffect(() => {
     console.log("Timer set");
     setScrambledAnswers(shuffle(question.answers))
+    setQuestionTime(initialTimer);
+    setSelectedAnswer(null);
+
     const timer = setTimeout(() => {
-      onLockInAnswer(null);
+      console.log("Selected answer: " + selectedAnswerRef.current);
+      onLockInAnswer(selectedAnswerRef.current);
+      console.log("Answer locked in.");
     }, questionTime);
+
     return () => {
       console.log("Cleaning up timer.");
-      setAnsweredCorrect("");
-      setQuestionTime(initialTimer);
       clearTimeout(timer);
     };
-  }, [question, questionTime]);
+  }, [question]);
 
   function verifyAnswer(answer) {
     console.log(answer === question.answers[0]);
-    
-    setAnsweredCorrect(answer === question.answers[0] ? "true" : "false");
+    setSelectedAnswer(answer);
+    //setAnsweredCorrect(answer === question.answers[0] ? "true" : "false");
 
   }
 
@@ -46,9 +56,9 @@ export default function Question({ question, onLockInAnswer, initialTimer }) {
   return (
     <>
       <div id="question">
-        <QuestionTimer timer={questionTime} questionId={question.id}/>
+        <QuestionTimer timer={questionTime} questionId={question.id} isAnswered={selectedAnswer?true:false}/>
         <h2>{question.text}</h2>
-        <Answers answers={scrambledAnswers} onAnswer={verifyAnswer} answeredCorrect={answeredCorrect} questionId={question.id}/>
+        <Answers answers={scrambledAnswers} onAnswer={verifyAnswer} correctAnswer={question.answers[0]} questionId={question.id}/>
       </div>
     </>
   );

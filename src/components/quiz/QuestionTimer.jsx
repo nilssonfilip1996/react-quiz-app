@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
-export default function QuestionTimer({ timer, questionId }) {
+export default function QuestionTimer({ timer, questionId, isAnswered}) {
   const [remainingTime, setRemainingTime] = useState(timer);
   const [initialTime, setInitialTime] = useState(timer);
   
   useEffect(() => {
-    console.log("Initiasing questiontimer");
+    //console.log("Initiasing questiontimer");
     const interval = setInterval(() => {
       setRemainingTime((prevTime) => {
         return (prevTime - 10);
@@ -13,12 +13,12 @@ export default function QuestionTimer({ timer, questionId }) {
     }, 10);
 
     return () => {
-      console.log("CLEARING INTERVAL");
+      //console.log("CLEARING INTERVAL");
       setRemainingTime(timer);
       clearInterval(interval);
     };
   }, [timer, questionId]);
 
-  return <progress value={remainingTime} max={timer} />;
+  return <progress className={isAnswered?"answered":""} value={remainingTime} max={timer} />;
 }
 
