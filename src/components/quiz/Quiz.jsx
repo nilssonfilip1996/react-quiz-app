@@ -10,7 +10,7 @@ export default function Quiz() {
     }
 
     var currentQuestionIndex = selectedAnswers.length;
-    //console.log(selectedAnswers);
+    console.log(selectedAnswers);
     
     var isQuizActive = currentQuestionIndex < questions.length ? true : false;
     
