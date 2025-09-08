@@ -33,13 +33,12 @@ export default function Question({ question, onLockInAnswer, initialTimer }) {
     setQuestionTime(initialTimer);
     setSelectedAnswer(null);
 
-    const timer = setTimeout(() => {
+    const timer = setTimeout(() => {              //Start timer.
       onLockInAnswer(selectedAnswerRef.current);
     }, questionTime);
 
     return () => {
-      console.log("Cleaning up timer.");
-      clearTimeout(timer);
+      clearTimeout(timer);    //Clear timer.
     };
   }, [question]);
 
