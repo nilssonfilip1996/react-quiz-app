@@ -2,10 +2,8 @@ import { useState, useEffect } from "react";
 
 export default function QuestionTimer({ timer, questionId, isAnswered}) {
   const [remainingTime, setRemainingTime] = useState(timer);
-  const [initialTime, setInitialTime] = useState(timer);
   
   useEffect(() => {
-    //console.log("Initiasing questiontimer");
     const interval = setInterval(() => {
       setRemainingTime((prevTime) => {
         return (prevTime - 10);
@@ -13,7 +11,6 @@ export default function QuestionTimer({ timer, questionId, isAnswered}) {
     }, 10);
 
     return () => {
-      //console.log("CLEARING INTERVAL");
       setRemainingTime(timer);
       clearInterval(interval);
     };

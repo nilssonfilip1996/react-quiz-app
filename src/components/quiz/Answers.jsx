@@ -7,13 +7,13 @@ export default function Answers({answers, onAnswer, correctAnswer}) {
         setSelectedAnswer(null);        //Reset the selected answer from the previous question.
     }, [answers]);
 
-    let correctAnswerClass;
+    let selectedAnswerStyling;
     if(selectedAnswer===null){
-        correctAnswerClass="";
+        selectedAnswerStyling="";
     } else if(selectedAnswer===correctAnswer){
-        correctAnswerClass="correct";
+        selectedAnswerStyling="correct";
     } else{
-        correctAnswerClass="wrong";
+        selectedAnswerStyling="wrong";
     }
 
     function handleAnswer(answer, e){
@@ -27,7 +27,7 @@ export default function Answers({answers, onAnswer, correctAnswer}) {
             <ul id="answers">
                 {answers.map((answer, index) => (
                     <li key={index} className="answer">
-                        <button disabled={selectedAnswer?true:false} className={answer===selectedAnswer?correctAnswerClass:""} onClick={(e) => handleAnswer(answer, e)}>
+                        <button disabled={selectedAnswer?true:false} className={answer===selectedAnswer?selectedAnswerStyling:""} onClick={(e) => handleAnswer(answer, e)}>
                             {answer}
                         </button>
                     </li>
