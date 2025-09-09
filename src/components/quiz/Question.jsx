@@ -17,7 +17,6 @@ function shuffle(array) {
 }
 
 export default function Question({ question, onLockInAnswer, initialTimer }) {
-  const [questionTime, setQuestionTime] = useState(initialTimer);
   const [scrambledAnswers, setScrambledAnswers] = useState(
     shuffle(question.answers)
   );
@@ -30,12 +29,11 @@ export default function Question({ question, onLockInAnswer, initialTimer }) {
 
   useEffect(() => {
     setScrambledAnswers(shuffle(question.answers));
-    setQuestionTime(initialTimer);
     setSelectedAnswer(null);
 
     const timer = setTimeout(() => {              //Start timer.
       onLockInAnswer(selectedAnswerRef.current);
-    }, questionTime);
+    }, initialTimer);
 
     return () => {
       clearTimeout(timer);    //Clear timer.
@@ -50,7 +48,7 @@ export default function Question({ question, onLockInAnswer, initialTimer }) {
     <>
       <div id="question">
         <QuestionTimer
-          timer={questionTime}
+          timer={initialTimer}
           questionId={question.id}
           isAnswered={selectedAnswer ? true : false}
         />
@@ -59,6 +57,7 @@ export default function Question({ question, onLockInAnswer, initialTimer }) {
           answers={scrambledAnswers}
           onAnswer={verifyAnswer}
           correctAnswer={question.answers[0]}
+          selectedAnswer={selectedAnswer}
         />
       </div>
     </>

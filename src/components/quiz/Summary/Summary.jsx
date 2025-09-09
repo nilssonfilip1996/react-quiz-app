@@ -1,47 +1,71 @@
 import SummaryStats from "./SummaryStats";
 
 function getStatistics(userAnswers, correctAnswers) {
-    console.log("CorrectAnswers:");
-    console.log(correctAnswers);
-    console.log("UserAnswers:");
-    console.log(userAnswers);
-    
-    
-    let skipped = 0;
-    let correct = 0;
-    let incorrect = 0;
+  const total = correctAnswers.length;
+  let skipped = 0,
+    correct = 0,
+    incorrect = 0;
 
-    for (let i = 0; i < userAnswers.length; i++) {
-        if(userAnswers[i] === null) {
-            console.log("Skipped");
-            skipped++;
-        } else if(userAnswers[i]===correctAnswers[i]){
-            console.log("Correct");
-            correct++;
-        } else {
-            console.log("Incorrect");
-            incorrect++;
-        }
+  userAnswers.forEach((answer, i) => {
+    if (answer === null) {
+      console.log("Skipped");
+      skipped++;
+    } else if (answer === correctAnswers[i]) {
+      console.log("Correct");
+      correct++;
+    } else {
+      console.log("Incorrect");
+      incorrect++;
     }
+  });
 
-    let stats = {
-        skippedPercentage: Math.floor(100*(skipped/correctAnswers.length)),
-        correctPercentage: Math.floor(100*(correct/correctAnswers.length)),
-        inCorrectPercentage: Math.floor(100*(incorrect/correctAnswers.length))
-    };
+  const toPercentage = (count) => Math.floor((count / total) * 100);
 
-    return stats;
+  return {
+    skippedPercentage: toPercentage(skipped),
+    correctPercentage: toPercentage(correct),
+    inCorrectPercentage: toPercentage(incorrect),
+  };
 }
 
-export default function Summary({userAnswers, correctAnswers}) {
-
-    console.log(getStatistics(userAnswers, correctAnswers));
-    //getStatistics(userAnswers, correctAnswers)
-    return (
-        <div id="summary">
-            <img src="/quiz-complete.png" alt="" />
-            <h2>QUIZ COMPLETED</h2>
-            <SummaryStats />
-        </div>
-    )
+export default function Summary({
+  questionsArray,
+  userAnswersArray,
+  correctAnswersArray,
+}) {
+  function getCorrectedAnswersList() {
+    let answerList = [];
+    {
+      for (let i = 0; i < userAnswersArray.length; i++) {
+        let colorClass = "";
+        if (userAnswersArray[i] === null) {
+          colorClass = "skipped";
+        } else if (userAnswersArray[i] === correctAnswersArray[i]) {
+          colorClass = "correct";
+        } else {
+          colorClass = "wrong";
+        }
+        answerList.push(
+          <li key={i}>
+            <h3>{i + 1}</h3>
+            <p className="question">{questionsArray[i]}</p>
+            <p className={"user-answer " + colorClass}>
+              {userAnswersArray[i] || "Skipped"}
+            </p>
+          </li>
+        );
+      }
+    }
+    return answerList;
+  }
+  return (
+    <div id="summary">
+      <img src="/quiz-complete.png" alt="" />
+      <h2>QUIZ COMPLETED</h2>
+      <SummaryStats
+        statistics={getStatistics(userAnswersArray, correctAnswersArray)}
+      />
+      <ol>{getCorrectedAnswersList()}</ol>
+    </div>
+  );
 }

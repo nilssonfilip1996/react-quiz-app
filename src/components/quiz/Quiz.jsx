@@ -12,16 +12,27 @@ function extractCorrectAnswers(questions) {
     return correctAnswers;
 }
 
+function extractQuestions(questions) {
+    let questionsArray = [];
+    questionsArray = questions.map((question) => {
+        return question.text;
+    });
+    
+    return questionsArray;
+}
+
 export default function Quiz() {
     const [selectedAnswers, setSelectedAnswers] = useState([]);
 
+    /**
+     * Adds an answer to the latest question and updates the selectedAnswers state.
+     * @param {*} selectedAnswer answer to the latest question.
+     */
     function handleUserSelect(selectedAnswer){
         setSelectedAnswers((prevSelectedAnswers) => [...prevSelectedAnswers, selectedAnswer]);
     }
 
     var currentQuestionIndex = selectedAnswers.length;
-    //console.log(selectedAnswers);
-    
     var isQuizActive = currentQuestionIndex < questions.length ? true : false;
     
 
@@ -29,7 +40,7 @@ export default function Quiz() {
         <>
             <div id="quiz">
                 {isQuizActive && <Question question={questions[currentQuestionIndex]} onLockInAnswer={handleUserSelect} initialTimer={2000}/>}
-                {!isQuizActive && <Summary userAnswers={selectedAnswers} correctAnswers={extractCorrectAnswers(questions)} /> }
+                {!isQuizActive && <Summary questionsArray={extractQuestions(questions)} userAnswersArray={selectedAnswers} correctAnswersArray={extractCorrectAnswers(questions)} /> }
             </div>
         </>
     );
