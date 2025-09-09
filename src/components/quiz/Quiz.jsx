@@ -39,7 +39,7 @@ export default function Quiz() {
     return (
         <>
             <div id="quiz">
-                {isQuizActive && <Question question={questions[currentQuestionIndex]} onLockInAnswer={handleUserSelect} initialTimer={2000}/>}
+                {isQuizActive && <Question question={questions[currentQuestionIndex]} onLockInAnswer={handleUserSelect} initialTimer={6000}/>}
                 {!isQuizActive && <Summary questionsArray={extractQuestions(questions)} userAnswersArray={selectedAnswers} correctAnswersArray={extractCorrectAnswers(questions)} /> }
             </div>
         </>
