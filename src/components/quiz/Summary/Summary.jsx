@@ -1,3 +1,4 @@
+import quizSummaryLogo from "../../../assets/quiz-complete.png";
 import SummaryStats from "./SummaryStats";
 
 function getStatistics(userAnswers, correctAnswers) {
@@ -61,7 +62,7 @@ export default function Summary({
   }
   return (
     <div id="summary">
-      <img src="/quiz-complete.png" alt="" />
+      <img src={quizSummaryLogo} alt="" />
       <h2>QUIZ COMPLETED</h2>
       <SummaryStats
         statistics={getStatistics(userAnswersArray, correctAnswersArray)}
