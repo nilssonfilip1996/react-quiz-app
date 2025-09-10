@@ -24,6 +24,10 @@ function extractQuestions(questions) {
 export default function Quiz() {
     const [selectedAnswers, setSelectedAnswers] = useState([]);
 
+    function initiateQuiz(){
+        setSelectedAnswers([]);
+    }
+
     /**
      * Adds an answer to the latest question and updates the selectedAnswers state.
      * @param {*} selectedAnswer answer to the latest question.
@@ -40,7 +44,7 @@ export default function Quiz() {
         <>
             <div id="quiz">
                 {isQuizActive && <Question question={questions[currentQuestionIndex]} onLockInAnswer={handleUserSelect} initialTimer={6000}/>}
-                {!isQuizActive && <Summary questionsArray={extractQuestions(questions)} userAnswersArray={selectedAnswers} correctAnswersArray={extractCorrectAnswers(questions)} /> }
+                {!isQuizActive && <Summary questionsArray={extractQuestions(questions)} userAnswersArray={selectedAnswers} correctAnswersArray={extractCorrectAnswers(questions)} onStartOver={initiateQuiz} /> }
             </div>
         </>
     );

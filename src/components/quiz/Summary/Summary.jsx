@@ -32,6 +32,7 @@ export default function Summary({
   questionsArray,
   userAnswersArray,
   correctAnswersArray,
+  onStartOver
 }) {
   function getCorrectedAnswersList() {
     let answerList = [];
@@ -66,6 +67,9 @@ export default function Summary({
         statistics={getStatistics(userAnswersArray, correctAnswersArray)}
       />
       <ol>{getCorrectedAnswersList()}</ol>
+      <div id="start-over">
+        <button onClick={()=>onStartOver()}>Try again</button>
+      </div>
     </div>
   );
 }

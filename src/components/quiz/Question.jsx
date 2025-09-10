@@ -41,6 +41,9 @@ export default function Question({ question, onLockInAnswer, initialTimer }) {
   }, [question]);
 
   function verifyAnswer(answer) {
+    if(answer===null) {   //User skipped the question. Immediately proceed to next question.
+      onLockInAnswer(null);
+    }
     setSelectedAnswer(answer);
   }
 

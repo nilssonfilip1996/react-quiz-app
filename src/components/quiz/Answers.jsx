@@ -27,6 +27,9 @@ export default function Answers({answers, onAnswer, correctAnswer, selectedAnswe
                     </li>
                 ))}
             </ul>
+            <div id="skip-action">
+                <button disabled={selectedAnswer?true:false} onClick={(e)=>handleAnswer(null, e)}>Skip</button>
+            </div>
         </>
     )
 }
