@@ -1,8 +1,14 @@
 import Question from "./Question";
-import questions from "../../questions.js"
+import QUESTIONS from "../../questions.js"
 import { useState } from "react";
 import Summary from "./Summary/Summary.jsx";
 
+
+/**
+ * questions array has to be a certain format, see questions.js.
+ * @param {*} questions, array to extract correct answers from.
+ * @returns array containing the correct answers.
+ */
 function extractCorrectAnswers(questions) {
     let correctAnswers = [];
     correctAnswers = questions.map((question) => {
@@ -12,6 +18,12 @@ function extractCorrectAnswers(questions) {
     return correctAnswers;
 }
 
+
+/**
+ * questions array has to be a certain format, see questions.js.
+ * @param {*} questions, array to extract question text from.
+ * @returns array containing the questions text.
+ */
 function extractQuestions(questions) {
     let questionsArray = [];
     questionsArray = questions.map((question) => {
@@ -37,14 +49,14 @@ export default function Quiz() {
     }
 
     var currentQuestionIndex = selectedAnswers.length;
-    var isQuizActive = currentQuestionIndex < questions.length ? true : false;
+    var isQuizActive = currentQuestionIndex < QUESTIONS.length ? true : false;
     
 
     return (
         <>
             <div id="quiz">
-                {isQuizActive && <Question question={questions[currentQuestionIndex]} onLockInAnswer={handleUserSelect} initialTimer={6000}/>}
-                {!isQuizActive && <Summary questionsArray={extractQuestions(questions)} userAnswersArray={selectedAnswers} correctAnswersArray={extractCorrectAnswers(questions)} onStartOver={initiateQuiz} /> }
+                {isQuizActive && <Question question={QUESTIONS[currentQuestionIndex]} onLockInAnswer={handleUserSelect} initialTimer={6000}/>}
+                {!isQuizActive && <Summary questionsArray={extractQuestions(QUESTIONS)} userAnswersArray={selectedAnswers} correctAnswersArray={extractCorrectAnswers(QUESTIONS)} onStartOver={initiateQuiz} /> }
             </div>
         </>
     );
