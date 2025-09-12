@@ -30,17 +30,14 @@ export default function Question({ question, onLockInAnswer, initialTimer }) {
   useEffect(() => {
     setScrambledAnswers(shuffle(question.answers));
     setSelectedAnswer(null);
+  }, [question])
 
-    const timer = setTimeout(() => {              //Start timer.
-      onLockInAnswer(selectedAnswerRef.current);
-    }, initialTimer);
 
-    return () => {
-      clearTimeout(timer);    //Clear timer.
-    };
-  }, [question]);
+  function timerExpired(){
+    onLockInAnswer(selectedAnswerRef.current);
+  }
 
-  function verifyAnswer(answer) {
+  function handleAnswer(answer) {
     if(answer===null) {   //User skipped the question. Immediately proceed to next question.
       onLockInAnswer(null);
     }
@@ -51,14 +48,15 @@ export default function Question({ question, onLockInAnswer, initialTimer }) {
     <>
       <div id="question">
         <QuestionTimer
-          timer={initialTimer}
+          initialTime={initialTimer}
           questionId={question.id}
           isAnswered={selectedAnswer ? true : false}
+          onTimerExpired={timerExpired}
         />
         <h2>{question.text}</h2>
         <Answers
           answers={scrambledAnswers}
-          onAnswer={verifyAnswer}
+          onAnswer={handleAnswer}
           correctAnswer={question.answers[0]}
           selectedAnswer={selectedAnswer}
         />
